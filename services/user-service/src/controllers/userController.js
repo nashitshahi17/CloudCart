@@ -1,25 +1,29 @@
 const express = require('express')
 const User = require('../models/user')
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+
 
 async function handleRegisterUser(req,res) {
     try{
-        const body = req.body
-        if(!body.name || !body.email || !body.password) return res.status(400).json({msg: "All fields are required"})
-        const existingUser = await user.findOne({
-            email: body.email
-        })
+        const {name,email,password} = req.body
+        if(!name || !email || !password) return res.status(400).json({msg: "All fields are required"})
+        const existingUser = await User.findOne({email})
         if(existingUser){
             return res.status(409).json({message: "User Already Exists"})
         }
+        
+        const hashedPassword = await bcrypt.hash(password,10)
+
         await User.create({
-            name: body.name,
-            email: body.email,
-            password: body.password
+            name: name,
+            email: email,
+            password: hashedPassword
         })
         return res.status(201).json({msg: "User created successfully"})
     }
     catch(error){
-        return res.status(500).json({msg: error})
+        return res.status(500).json({msg: error.message})
     }
     
 }
@@ -38,13 +42,32 @@ async function handleLoginUser(req,res){
                 message: "User not found"
             });
         }
-        if (existingUser.password !== password) {
+
+        const isMatch = await bcrypt.compare(
+            password,
+            existingUser.password
+        )
+
+        if (!isMatch) {
             return res.status(401).json({
                 message: "Invalid credentials"
             });
         }
+
+        const token = jwt.sign(
+            {
+            id: existingUser._id,
+            email: existingUser.email
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "1d"
+            }
+        )
+
         return res.status(200).json({
-            message: "Login successful"
+            message: "Login successful",
+            token
         });
 
     }
@@ -61,7 +84,7 @@ async function handleLoginUser(req,res){
 async function handleGetUser(req,res){
     try{
         const user = await User.findById(req.params.id)
-        if(!user) res.status(404).json({message : "User Not Found"})
+        if(!user) return res.status(404).json({message : "User Not Found"})
         return res.status(200).json(user)
     }catch(error){
         return res.status(500).json({
@@ -95,11 +118,30 @@ async function handleDeleteUser(req,res){
     }
 }
 
+async function handleProfile(req, res) {
+
+    try {
+
+        const user = await User.findById(
+            req.user.id
+        ).select('-password');
+
+        return res.status(200).json(user);
+
+    } catch (error) {
+
+        return res.status(500).json({
+            message: error.message
+        });
+
+    }
+}
+
 module.exports = {
     handleRegisterUser,
     handleLoginUser,
     handleGetUser,
     handleUpdateUser,
-    handleUpdateUser,
-    handleDeleteUser
+    handleDeleteUser,
+    handleProfile
 }

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express')
 const {connectDB} = require('./src/config/db')
 const urlRoute = require('./src/routes/user')
@@ -15,10 +16,6 @@ app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 
 // API Routes
-app.use('/api/users',urlRoute)
-app.use('/api/users',urlRoute)
-app.use('/api/users',urlRoute)
-app.use('/api/users',urlRoute)
 app.use('/api/users',urlRoute)
 
 app.listen(PORT,()=>{
