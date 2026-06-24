@@ -9,7 +9,7 @@ app.use(express.json())
 
 connectDB(process.env.MONGO_URI)
 
-app.use('/api/products',productRoutes)
+app.use('/',productRoutes)
 
 app.listen(process.env.PORT,()=>{
     console.log(`Server is running on ${process.env.PORT}`)
