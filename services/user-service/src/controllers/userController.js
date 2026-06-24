@@ -57,7 +57,8 @@ async function handleLoginUser(req,res){
         const token = jwt.sign(
             {
             id: existingUser._id,
-            email: existingUser.email
+            email: existingUser.email,
+            role: existingUser.role
             },
             process.env.JWT_SECRET,
             {
@@ -137,11 +138,20 @@ async function handleProfile(req, res) {
     }
 }
 
+async function handleAdminDashboard(req,res){
+
+    return res.status(200).json({
+        message: 'Welcome Admin'
+    })
+
+}
+
 module.exports = {
     handleRegisterUser,
     handleLoginUser,
     handleGetUser,
     handleUpdateUser,
     handleDeleteUser,
-    handleProfile
+    handleProfile,
+    handleAdminDashboard
 }
