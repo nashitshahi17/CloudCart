@@ -32,4 +32,17 @@ function authenticateUser(req, res, next) {
     }
 }
 
-module.exports = authenticateUser;
+function authorizeAdmin(req,res,next){
+    if(req.user.role !== 'ADMIN'){
+        return res.status(403).json({
+            message: 'Access Denied. Admin Only'
+        })
+    }
+
+    next()
+}
+
+module.exports = {
+    authenticateUser,
+    authorizeAdmin
+}
