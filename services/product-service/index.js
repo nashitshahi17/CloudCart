@@ -8,6 +8,13 @@ const app = express()
 app.use(express.json())
 
 connectDB(process.env.MONGO_URI)
+.then(()=>{
+    console.log("MongoDB Connected Successfully")
+})
+.catch((error)=>{
+    console.log(error)
+})
+    
 
 app.use('/',productRoutes)
 
