@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express')
 const {connectDB} = require('./src/config/db')
 const urlRoute = require('./src/routes/user')
+const errorHandler = require('./src/middlewares/errorHandler');
 
 const app = express()
 const PORT = process.env.PORT 
@@ -15,8 +16,12 @@ connectDB(process.env.MONGO_URI)
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 
+
 // API Routes
 app.use('/',urlRoute)
+
+app.use(errorHandler)
+
 
 app.listen(PORT,()=>{
     console.log(`Server started at ${PORT}`)
