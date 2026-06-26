@@ -1,23 +1,20 @@
-const jwt = require('jsonwebtoken');
+const ROLES = require('../constants/roles')
+const { verifyToken } = require('../utils/jwt')
+const { errorResponse } = require('../utils/response')
 
 function authenticateUser(req, res, next) {
 
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
-        return res.status(401).json({
-            message: "Token missing"
-        });
+        return errorResponse(res,401,"Token missing");
     }
 
     const token = authHeader.split(' ')[1];
 
     try {
 
-        const decoded = jwt.verify(
-            token,
-            process.env.JWT_SECRET
-        );
+        const decoded = verifyToken(token)
 
         req.user = decoded;
 
@@ -25,18 +22,14 @@ function authenticateUser(req, res, next) {
 
     } catch (error) {
 
-        return res.status(401).json({
-            message: "Invalid token"
-        });
+        return errorResponse(res,401,"Invalid token");
 
     }
 }
 
 function authorizeAdmin(req,res,next){
-    if(req.user.role !== 'ADMIN'){
-        return res.status(403).json({
-            message: 'Access Denied. Admin Only'
-        })
+    if(req.user.role !== ROLES.ADMIN){
+        return errorResponse(res,403,'Access Denied. Admin Only')
     }
 
     next()
