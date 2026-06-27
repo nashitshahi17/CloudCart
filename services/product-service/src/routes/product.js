@@ -6,7 +6,7 @@ const router = express.Router()
 router.post('/',authenticateUser,authorizeAdmin,handleCreateProduct)
 router.get('/',handleGetProducts)
 router.get('/:id',handleGetProduct)
-router.put('/:id',handleUpdateProduct)
-router.delete('/:id',handleDeleteProduct)
+router.put('/:id',authenticateUser,authorizeAdmin,handleUpdateProduct)
+router.delete('/:id',authenticateUser,authorizeAdmin,handleDeleteProduct)
 
 module.exports = router
