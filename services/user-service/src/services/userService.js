@@ -28,7 +28,6 @@ async function registerUser(userData) {
 }
 
 async function loginUser(loginData) {
-    console.log(loginData)
     const {email,password} = loginData
 
     const user = await userRepository.findUserByEmail(email)
