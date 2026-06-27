@@ -9,7 +9,7 @@ async function registerUser(userData) {
     validateRegisterUser(userData)
     const {name,email,password} = userData
 
-    const existingUser = await userRepository.findUserByEmail(email)
+    const existingUser = await userRepository.findByEmail(email)
 
     if(existingUser){
         throw new AppError(
@@ -20,7 +20,7 @@ async function registerUser(userData) {
 
     const hashedPassword = await hashPassword(password)
 
-    const user = await userRepository.createUser({
+    const user = await userRepository.create({
         name, email, password: hashedPassword,role: ROLES.USER
     })
 
@@ -30,7 +30,7 @@ async function registerUser(userData) {
 async function loginUser(loginData) {
     const {email,password} = loginData
 
-    const user = await userRepository.findUserByEmail(email)
+    const user = await userRepository.findByEmail(email)
 
     if(!user){
         throw new AppError(
@@ -58,7 +58,7 @@ async function loginUser(loginData) {
 }
 
 async function getUserById(userId){
-    const user = await userRepository.findUserById(userId)
+    const user = await userRepository.findById(userId)
 
     if(!user){
         throw new AppError(
@@ -97,7 +97,7 @@ async function deleteUser(userId) {
 }
 
 async function getProfile(userId){
-    const user = await userRepository.findUserById(userId)
+    const user = await userRepository.findById(userId)
 
     if(!user){
         throw new AppError(
@@ -108,11 +108,27 @@ async function getProfile(userId){
     return user
 }
 
+async function getAllUsers(query){
+    const {page,limit,skip} = getPagination(query);
+    const users = await userRepository.findAll({skip,limit,select:"-password"});
+    const totalUsers = await userRepository.countDocuments();
+    return{
+        users,
+        pagination:{
+            currentPage:page,
+            limit,
+            totalUsers,
+            totalPages:Math.ceil(totalUsers/limit)
+        }
+    };
+}
+
 module.exports = {
     registerUser,
     loginUser,
     getUserById,
     updateUser,
     deleteUser,
-    getProfile
+    getProfile,
+    getAllUsers
 };

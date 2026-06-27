@@ -1,6 +1,7 @@
 const catchAsync = require('../utils/catchAsync')
 const userService = require('../services/userService')
 const { successResponse } = require('../utils/response')
+const {HTTP_STATUS,MESSAGES} = require('../constants/httpStatus')
 
 
 const handleRegisterUser= catchAsync(async(req,res) =>{
@@ -34,6 +35,11 @@ const handleProfile = catchAsync(async(req, res) =>{
     return successResponse(res,200,"Profile Fetched Successfully",user);
 })
 
+const handleGetAllUsers = catchAsync(async(req,res)=>{
+    const result = await userService.getAllUsers(req.query);
+    return successResponse(res,HTTP_STATUS.OK,MESSAGES.USER.FETCH_SUCCESS,result);
+})
+
 const handleAdminDashboard = catchAsync(async(req,res)=>{
     return successResponse(res,200,'Welcome Admin')
 })
@@ -45,5 +51,6 @@ module.exports = {
     handleUpdateUser,
     handleDeleteUser,
     handleProfile,
+    handleGetAllUsers,
     handleAdminDashboard
 }
