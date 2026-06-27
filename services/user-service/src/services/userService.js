@@ -3,12 +3,13 @@ const { hashPassword, comparePasswords } = require('../utils/password')
 const { generateToken } = require('../utils/jwt')
 const ROLES = require('../constants/roles')
 const { validateRegisterUser } = require('../validators/userValidator')
+const AppError = require('../errors/AppError')
 
 async function registerUser(userData) {
     validateRegisterUser(userData)
     const {name,email,password} = userData
 
-    const existingUser = await findUserByEmail(email)
+    const existingUser = await userRepository.findUserByEmail(email)
 
     if(existingUser){
         throw new AppError(
@@ -19,7 +20,7 @@ async function registerUser(userData) {
 
     const hashedPassword = await hashPassword(password)
 
-    const user = await createUser({
+    const user = await userRepository.createUser({
         name, email, password: hashedPassword,role: ROLES.USER
     })
 
@@ -27,9 +28,10 @@ async function registerUser(userData) {
 }
 
 async function loginUser(loginData) {
+    console.log(loginData)
     const {email,password} = loginData
 
-    const user = userRepository.findUserByEmail(email)
+    const user = await userRepository.findUserByEmail(email)
 
     if(!user){
         throw new AppError(
@@ -69,6 +71,9 @@ async function getUserById(userId){
 }
 
 async function updateUser(userId,updateData){
+    if(updateData.password){
+        updateData.password = await hashPassword(updateData.password)
+    }
     const updatedUser = await userRepository.updateUser(userId,updateData)
 
     if(!updatedUser){
