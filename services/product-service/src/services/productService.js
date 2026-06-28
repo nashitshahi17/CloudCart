@@ -93,10 +93,27 @@ async function deleteProduct(productId){
     return deletedProduct;
 }
 
+async function getProductForOrder(productId) {
+    const product = await productRepository.findById(productId,"name price stock");
+
+    if (!product) {
+        throw new AppError(MESSAGES.PRODUCT.NOT_FOUND,HTTP_STATUS.NOT_FOUND);
+    }
+
+    return product;
+}
+
+async function getProductsForOrder(productIds){
+    const products = await productRepository.findByIds( productIds,"name price stock");
+    return products;
+}
+
 module.exports={
     createProduct,
     getProductById,
     getAllProducts,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getProductForOrder,
+    getProductsForOrder
 };
