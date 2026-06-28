@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const ORDER_STATUS = require('../constants/orderStatus')
 
 const orderSchema = new mongoose.Schema({
 
@@ -22,17 +23,20 @@ const orderSchema = new mongoose.Schema({
 
             price:{
                 type:Number,
-                required:true
+                required:true,
+                min:0
             },
 
             quantity:{
                 type:Number,
-                required:true
+                required:true,
+                min:1
             },
 
             subtotal:{
                 type:Number,
-                required:true
+                required:true,
+                min:0
             }
 
         }
@@ -40,7 +44,8 @@ const orderSchema = new mongoose.Schema({
 
     totalAmount:{
         type:Number,
-        required:true
+        required:true,
+        min:0
     },
 
     shippingAddress:{
@@ -50,19 +55,16 @@ const orderSchema = new mongoose.Schema({
 
     status:{
         type:String,
-        enum:[
-            "PENDING",
-            "CONFIRMED",
-            "SHIPPED",
-            "DELIVERED",
-            "CANCELLED"
-        ],
+        enum: Object.values(ORDER_STATUS),
         default:"PENDING"
     }
 
 },{
     timestamps:true
 });
+
+orderSchema.index({ userId: 1 });
+orderSchema.index({ status: 1 });
 
 const Order = mongoose.model("Order",orderSchema);
 module.exports = Order
