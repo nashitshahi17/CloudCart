@@ -1,0 +1,9 @@
+const ORDER_STATUS = Object.freeze({
+    PENDING: "PENDING",
+    CONFIRMED: "CONFIRMED",
+    SHIPPED: "SHIPPED",
+    DELIVERED: "DELIVERED",
+    CANCELLED: "CANCELLED"
+});
+
+module.exports = ORDER_STATUS;
