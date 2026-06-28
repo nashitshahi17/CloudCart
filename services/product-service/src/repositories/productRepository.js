@@ -41,9 +41,20 @@ async function countDocuments(filter = {}) {
     return await Product.countDocuments(filter);
 }
 
+async function findByIds(productIds, select = "") {
+
+    return await Product.find({
+        _id: {
+            $in: productIds
+        }
+    }).select(select);
+
+}
+
 module.exports = {
     create,
     findById,
+    findByIds,
     findAll,
     update,
     deleteById,
