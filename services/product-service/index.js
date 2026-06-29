@@ -16,7 +16,6 @@ connectDB(process.env.MONGO_URI)
     console.log(error)
 })
     
-
 app.use('/',productRoutes)
 app.use('/internal/products',internalProductRoutes)
 
