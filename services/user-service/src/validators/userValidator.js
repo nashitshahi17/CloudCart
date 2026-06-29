@@ -83,11 +83,7 @@ function validateUpdateUser(data){
 }
 
 module.exports = {
-
     validateRegisterUser,
-
     validateLoginUser,
-
     validateUpdateUser
-
 };
