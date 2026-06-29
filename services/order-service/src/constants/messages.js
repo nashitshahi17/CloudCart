@@ -50,6 +50,8 @@ const MESSAGES = {
 
         CREATE_SUCCESS: "Order placed successfully",
 
+        FETCH_ALL_SUCCESS: "Orders fetched successfully",
+
         UPDATE_SUCCESS: "Order updated successfully",
 
         DELETE_SUCCESS: "Order cancelled successfully",
