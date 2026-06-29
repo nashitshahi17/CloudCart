@@ -10,13 +10,17 @@ async function createOrder(userId, orderData){
 
     const {items,shippingAddress} = orderData;
 
+    if (!items || items.length === 0) {
+        throw new AppError("Order must contain at least one item",HTTP_STATUS.BAD_REQUEST);
+    }
+
+    if (!shippingAddress) {
+        throw new AppError("Shipping address is required",HTTP_STATUS.BAD_REQUEST);
+    }
+
     const validatedProducts = await productClient.validateProducts(items);
 
-    const totalAmount = validatedProducts.reduce(
-            (total, item) =>
-                total + item.subtotal,
-            0
-        );
+    const totalAmount = validatedProducts.reduce((total, item) => total + item.subtotal,0);
 
     return await orderRepository.create({
         userId,
@@ -27,11 +31,15 @@ async function createOrder(userId, orderData){
     });
 }
 
-async function getOrderById(orderId) {
+async function getOrderById(orderId, userId,userRole) {
     const order = await orderRepository.findById(orderId);
 
     if (!order) {
         throw new AppError(MESSAGES.ORDER.NOT_FOUND,HTTP_STATUS.NOT_FOUND);
+    }
+
+    if (order.userId.toString() !== userId && userRole !== "ADMIN") {
+        throw new AppError(MESSAGES.AUTH.ACCESS_DENIED,HTTP_STATUS.FORBIDDEN);
     }
 
     return order;
