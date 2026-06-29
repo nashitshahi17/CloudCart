@@ -35,11 +35,21 @@ async function countDocuments(filter = {}) {
     return await Order.countDocuments(filter);
 }
 
+async function findByStatus(status,{skip = 0,limit = 10} = {}) {
+
+    return await Order.find({ status })
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit);
+
+}
+
 module.exports = {
     create,
     findById,
     findAll,
     findByUserId,
+    findByStatus,
     update,
     deleteById,
     countDocuments
