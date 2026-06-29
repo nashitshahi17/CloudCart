@@ -3,6 +3,7 @@ const express = require('express')
 const cors = require('cors')
 const userRoute = require('./src/routes/userRoute')
 const productRoute = require('./src/routes/productRoute')
+const orderRoute = require('./src/routes/orderRoute')
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const app = express()
@@ -13,5 +14,6 @@ app.use(cors())
 
 app.use('/api/users',userRoute)
 app.use('/api/products',productRoute)
+app.use('/api/orders',orderRoute)
 
 app.listen(PORT,()=>{console.log(`Server Running on ${PORT}`)})
