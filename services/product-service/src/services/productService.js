@@ -5,6 +5,7 @@ const HTTP_STATUS = require('../constants/httpStatus')
 const MESSAGES = require('../constants/messages')
 
 async function createProduct(productData){
+    
     return await productRepository.create(productData);
 }
 
@@ -108,6 +109,37 @@ async function getProductsForOrder(productIds){
     return products;
 }
 
+async function validateProducts(items) {
+
+    const productIds = items.map(item => item.productId);
+
+    const products = await productRepository.findByIds(productIds);
+
+    const validatedProducts = [];
+
+    for (const item of items) {
+
+        const product = products.find(p => p._id.toString() === item.productId);
+
+        if (!product) {
+            throw new AppError("Product not found",HTTP_STATUS.NOT_FOUND);
+        }
+
+        if (product.stock < item.quantity) {
+            throw new AppError(`${product.name} is out of stock`,HTTP_STATUS.BAD_REQUEST);
+        }
+
+        validatedProducts.push({
+            productId: product._id,
+            name: product.name,
+            price: product.price,
+            quantity: item.quantity,
+            subtotal: product.price * item.quantity
+        });
+    }
+    return validatedProducts;
+}
+
 module.exports={
     createProduct,
     getProductById,
@@ -115,5 +147,6 @@ module.exports={
     updateProduct,
     deleteProduct,
     getProductForOrder,
-    getProductsForOrder
+    getProductsForOrder,
+    validateProducts
 };
