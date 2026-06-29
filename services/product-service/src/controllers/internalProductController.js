@@ -8,12 +8,6 @@ const handleGetProductInternal = catchAsync(async (req, res) => {
     return successResponse(res, HTTP_STATUS.OK, "Internal Product Fetch Successful", product);
 });
 
-const handleBulkProductsInternal = catchAsync(async(req,res)=>{
-    const {productIds}=req.body;
-    const products= await productService.getProductsForOrder(productIds);
-    return successResponse(res,HTTP_STATUS.OK,"Products fetched successfully",products);
-});
-
 const handleValidateProducts = catchAsync(async (req, res) => {
     const { items } = req.body;
     const products = await productService.validateProducts(items);
@@ -22,6 +16,5 @@ const handleValidateProducts = catchAsync(async (req, res) => {
 
 module.exports = {
     handleGetProductInternal,
-    handleBulkProductsInternal,
     handleValidateProducts
 };
