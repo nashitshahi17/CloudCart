@@ -1,6 +1,6 @@
 import { RouterProvider } from "react-router-dom";
 import router from "../router";
-import api from '../api/axios'
+import api from '../shared/api/axios'
 
 function App() {
     return <RouterProvider router={router} />;
