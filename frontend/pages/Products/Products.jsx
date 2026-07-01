@@ -1,7 +1,11 @@
+import LogoutButton from "../../features/auth/components/LogoutButton";
 export default function Products() {
 
     return (
-        <h1>Product Page</h1>
+        <div>
+            <LogoutButton />
+            <h1>Product Page</h1>
+        </div>
     );
 
 }
