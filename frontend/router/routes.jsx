@@ -7,8 +7,8 @@ import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Home from "../pages/Home/Home";
 import Login from "../features/auth/pages/Login";
 import Register from "../features/auth/pages/Register";
-import Products from "../pages/Products/Products";
-import ProductDetails from "../pages/ProductsDetails/ProductDetails";
+import Products from "../features/products/pages/Products"
+import ProductDetails from "../features/products/pages/ProductDetails";
 import Cart from "../pages/Cart/Cart";
 import Checkout from "../pages/Checkout/Checkout";
 import Orders from "../pages/Orders/Orders";
