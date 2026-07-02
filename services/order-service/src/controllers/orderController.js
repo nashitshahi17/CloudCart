@@ -6,7 +6,7 @@ const MESSAGES = require("../constants/messages");
 
 const handleCreateOrder = catchAsync(async (req, res) => {
 
-    const order = await orderService.createOrder(req.user.id,req.body);
+    const order = await orderService.createOrder(req.user.id,req.body,req.headers.authorization);
 
     return successResponse(res,HTTP_STATUS.CREATED,MESSAGES.ORDER.CREATE_SUCCESS,order);
 

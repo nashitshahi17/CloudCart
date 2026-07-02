@@ -5,30 +5,63 @@ const AppError = require("../errors/AppError");
 const HTTP_STATUS = require("../constants/httpStatus");
 const MESSAGES = require("../constants/messages");
 const ORDER_STATUS = require("../constants/orderStatus");
+const cartClient = require('../clients/cartClient')
 
-async function createOrder(userId, orderData){
+async function createOrder(userId, orderData, token) {
 
-    const {items,shippingAddress} = orderData;
-
-    if (!items || items.length === 0) {
-        throw new AppError("Order must contain at least one item",HTTP_STATUS.BAD_REQUEST);
-    }
+    const { shippingAddress } = orderData;
 
     if (!shippingAddress) {
-        throw new AppError("Shipping address is required",HTTP_STATUS.BAD_REQUEST);
+
+        throw new AppError(
+            "Shipping address is required",
+            HTTP_STATUS.BAD_REQUEST
+        );
+
     }
 
-    const validatedProducts = await productClient.validateProducts(items);
+    // Get user's cart
+    const cart = await cartClient.getCart(userId,token);
 
-    const totalAmount = validatedProducts.reduce((total, item) => total + item.subtotal,0);
+    if (!cart.items || cart.items.length === 0) {
 
-    return await orderRepository.create({
+        throw new AppError(
+            "Cart is empty",
+            HTTP_STATUS.BAD_REQUEST
+        );
+
+    }
+
+    // Validate products with Product Service
+    const validatedProducts = await productClient.validateProducts(cart.items);
+
+    // Calculate total amount
+    const totalAmount = validatedProducts.reduce(
+
+        (total, item) => total + item.subtotal,
+
+        0
+
+    );
+
+    // Create order
+    const order = await orderRepository.create({
+
         userId,
+
         items: validatedProducts,
+
         totalAmount,
+
         shippingAddress,
+
         status: ORDER_STATUS.PENDING
+
     });
+
+    // Clear cart after successful order creation
+    await cartClient.clearCart(userId,token);
+    return order;
 }
 
 async function getOrderById(orderId, userId,userRole) {
