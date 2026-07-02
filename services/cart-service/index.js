@@ -2,6 +2,7 @@ require('dotenv').config()
 const {connectDB} = require('./src/config/db')
 const express = require('express')
 const cartRoutes = require('./src/routes/cartRoutes');
+const internalCartRoutes = require('./src/routes/internalCartRoutes')
 const app = express()
 const PORT = process.env.PORT
 
@@ -15,5 +16,6 @@ connectDB(process.env.MONGO_URI)
     console.log(error)
 })
 app.use("/", cartRoutes);
+app.use("/internal/cart",internalCartRoutes);
 
 app.listen(PORT,()=>{console.log(`Server started at ${PORT}`)})

@@ -13,6 +13,13 @@ const MESSAGES = {
         ACCESS_DENIED: "Access denied"
 
     },
+    CART: {
+
+    FETCH_SUCCESS: "Cart fetched successfully",
+
+    CLEAR_SUCCESS: "Cart cleared successfully"
+
+    },
 
     USER: {
 

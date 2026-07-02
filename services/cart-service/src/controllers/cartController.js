@@ -22,7 +22,7 @@ const getCart = catchAsync(async (req, res) => {
 
     const cart = await cartService.getCart(req.user.id);
 
-    return successResponse(res, HTTP_STATUS.OK,true,"Cart fetched successfully",cart);
+    return successResponse(res, HTTP_STATUS.OK,"Cart fetched successfully",cart);
 
 });
 
