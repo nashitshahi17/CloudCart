@@ -5,6 +5,7 @@ import Button from "../../../shared/components/Button/Button";
 export default function ProductCard({
     product,
 }) {
+    console.log(product);
 
     return (
         <Card
@@ -48,7 +49,7 @@ export default function ProductCard({
 
                     </span>
 
-                    <Link to={`/products/${product._id}`}>
+                    <Link to={`/products/${product.id}`}>
 
                         <Button>
 

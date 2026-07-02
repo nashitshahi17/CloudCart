@@ -1,36 +1,39 @@
 import { useProducts } from "../hooks/useProducts";
-import LogoutButton from '../../auth/components/LogoutButton'
-import ProductCard from "../components/ProductCard";
+import ProductGrid from "../components/ProductGrid";
+import Loader from "../../../shared/components/Loader/Loader";
 import { mapProduct } from "../utils/productMapper";
+import LogoutButton from '../../auth/components/LogoutButton'
 
 export default function Products() {
+    const {
+        data,
+        isLoading,
+        error,
+    } = useProducts();
 
-    const {data,isLoading,error,} = useProducts();
+    if (isLoading) {
+        return (
+            <Loader
+                size="lg"
+                text="Loading Products..."
+            />
+        );
+    }
 
-    if (isLoading)
-        return <h1>Loading...</h1>;
-    if (error)
-        return <h1>Error</h1>;
+    if (error) {
+        return (
+            <h1>Something went wrong</h1>
+        );
+    }
+
+    const products =
+        data?.data?.products?.map(mapProduct) || [];
+
     return (
-        <div className="space-y-5">
-            {
-                data?.data?.products?.map(product => (
-                    <ProductCard
-                        product = {mapProduct(product)}
-
-                        key={product._id}
-
-                        product={product}
-
-                    />
-
-                ))
-
-            }
-
-            <LogoutButton />
-        </div>
-
+        <ProductGrid
+        products={products}
+        />
     );
+    <LogoutButton />
 
 }
