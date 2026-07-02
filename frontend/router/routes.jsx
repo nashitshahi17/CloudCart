@@ -9,9 +9,10 @@ import Login from "../features/auth/pages/Login";
 import Register from "../features/auth/pages/Register";
 import Products from "../features/products/pages/Products"
 import ProductDetails from "../features/products/pages/ProductDetails";
-import Cart from "../pages/Cart/Cart";
-import Checkout from "../pages/Checkout/Checkout";
-import Orders from "../pages/Orders/Orders";
+import Cart from "../features/cart/pages/Cart";
+import Checkout from "../features/checkout/pages/Checkout";
+import Orders from "../features/orders/pages/Order";
+import OrderDetails from "../features/orders/pages/OrderDetails";
 import Profile from "../pages/Profile/Profile";
 
 const routes = [
@@ -72,6 +73,10 @@ const routes = [
           {
             path: "orders",
             element: <Orders />,
+          },
+          {
+            path: "orders/:id",
+            element: <OrderDetails />
           },
           {
             path: "profile",
