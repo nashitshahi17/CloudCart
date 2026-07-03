@@ -1,111 +1,123 @@
 const productRepository = require('../repositories/productRepository')
-const {getPagination} = require('../utils/pagination')
+const { getPagination } = require('../utils/pagination')
 const AppError = require('../errors/AppError')
 const HTTP_STATUS = require('../constants/httpStatus')
 const MESSAGES = require('../constants/messages')
 
-async function createProduct(productData){
-    
+async function createProduct(productData) {
+
     return await productRepository.create(productData);
 }
 
-async function getProductById(productId){
-    const product =await productRepository.findById(productId);
+async function getProductById(productId) {
+    const product = await productRepository.findById(productId);
 
-    if(!product){
-        throw new AppError(MESSAGES.PRODUCT.NOT_FOUND,HTTP_STATUS.NOT_FOUND);
+    if (!product) {
+        throw new AppError(MESSAGES.PRODUCT.NOT_FOUND, HTTP_STATUS.NOT_FOUND);
     }
 
     return product;
 }
 
-async function getAllProducts(query){
+async function getAllProducts(query) {
 
-    const {page,limit,skip} = getPagination(query);
+    const { page, limit, skip } = getPagination(query);
 
-    const filter={};
+    const filter = {};
 
-    const sort={};
+    if (query.search) {
 
-    if(query.category){
+        filter.name = {
 
-        filter.category=
+            $regex: query.search,
+
+            $options: "i"
+
+        };
+
+    }
+
+    const sort = {};
+
+    if (query.category) {
+
+        filter.category =
             query.category;
 
     }
 
-    if(query.minPrice){
+    if (query.minPrice) {
 
-        filter.price={
+        filter.price = {
             ...filter.price,
 
-            $gte:Number(query.minPrice)
+            $gte: Number(query.minPrice)
         };
 
     }
 
-    if(query.maxPrice){
+    if (query.maxPrice) {
 
-        filter.price={
+        filter.price = {
             ...filter.price,
 
-            $lte:Number(query.maxPrice)
+            $lte: Number(query.maxPrice)
         };
     }
 
-    if(query.sortBy){
-        sort[query.sortBy]=query.order==="desc" ?-1:1;
+    if (query.sortBy) {
+        sort[query.sortBy] = query.order === "desc" ? -1 : 1;
     }
 
-    const products= await productRepository.findAll({filter,sort,skip,limit});
+    const products = await productRepository.findAll({ filter, sort, skip, limit });
 
-    const totalProducts= await productRepository.countDocuments(filter);
+    const totalProducts = await productRepository.countDocuments(filter);
 
-    return{
+    return {
         products,
-        pagination:{
-            currentPage:page,
+        pagination: {
+            currentPage: page,
             limit,
             totalProducts,
-            totalPages: Math.ceil(totalProducts/limit)
+            totalPages: Math.ceil(totalProducts / limit)
         }
     };
 }
 
-async function updateProduct(productId, updateData){
+async function updateProduct(productId, updateData) {
 
-    const updatedProduct = await productRepository.update(productId,updateData);
+    const updatedProduct = await productRepository.update(productId, updateData);
 
-    if(!updatedProduct){
-        throw new AppError(MESSAGES.PRODUCT.NOT_FOUND,HTTP_STATUS.NOT_FOUND);
+    if (!updatedProduct) {
+        throw new AppError(MESSAGES.PRODUCT.NOT_FOUND, HTTP_STATUS.NOT_FOUND);
     }
 
     return updatedProduct;
 }
 
-async function deleteProduct(productId){
+async function deleteProduct(productId) {
 
     const deletedProduct = await productRepository.deleteById(productId);
 
-    if(!deletedProduct){
-        throw new AppError(MESSAGES.PRODUCT.NOT_FOUND,HTTP_STATUS.NOT_FOUND);
+    if (!deletedProduct) {
+        throw new AppError(MESSAGES.PRODUCT.NOT_FOUND, HTTP_STATUS.NOT_FOUND);
     }
 
     return deletedProduct;
 }
 
 async function getProductForOrder(productId) {
-    const product = await productRepository.findById(productId,"name price stock");
+    const product = await productRepository.findById(productId, "name price stock");
 
     if (!product) {
-        throw new AppError(MESSAGES.PRODUCT.NOT_FOUND,HTTP_STATUS.NOT_FOUND);
+        throw new AppError(MESSAGES.PRODUCT.NOT_FOUND, HTTP_STATUS.NOT_FOUND);
     }
 
     return product;
 }
 
-async function getProductsForOrder(productIds){
-    const products = await productRepository.findByIds( productIds,"name price stock");
+async function getProductsForOrder(productIds) {
+    const products = await productRepository.findByIds(productIds, "name price stock");
     return products;
 }
 
@@ -122,11 +134,11 @@ async function validateProducts(items) {
         const product = products.find(p => p._id.toString() === item.productId);
 
         if (!product) {
-            throw new AppError("Product not found",HTTP_STATUS.NOT_FOUND);
+            throw new AppError("Product not found", HTTP_STATUS.NOT_FOUND);
         }
 
         if (product.stock < item.quantity) {
-            throw new AppError(`${product.name} is out of stock`,HTTP_STATUS.BAD_REQUEST);
+            throw new AppError(`${product.name} is out of stock`, HTTP_STATUS.BAD_REQUEST);
         }
 
         validatedProducts.push({
@@ -140,7 +152,7 @@ async function validateProducts(items) {
     return validatedProducts;
 }
 
-module.exports={
+module.exports = {
     createProduct,
     getProductById,
     getAllProducts,
