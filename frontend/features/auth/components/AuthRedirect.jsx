@@ -12,7 +12,7 @@ export default function AuthRedirect({
 
     return (
 
-        <p className="text-center text-sm text-gray-600">
+        <p className="text-center text-sm text-[var(--muted)]">
 
             {text}{" "}
 
@@ -20,7 +20,7 @@ export default function AuthRedirect({
 
                 to={to}
 
-                className="font-medium text-blue-600 transition-colors hover:text-blue-700 hover:underline"
+                className="font-medium text-[var(--color-primary)]600 transition-colors hover:text-[var(--color-primary)]700 hover:underline"
 
             >
 
