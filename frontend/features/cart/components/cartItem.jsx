@@ -120,7 +120,7 @@ export default function CartItem({ item }) {
 
                     </h2>
 
-                    <p className="mt-2 text-lg font-bold text-blue-600">
+                    <p className="mt-2 text-lg font-bold text-[var(--color-primary)]600">
 
                         ₹{item.price}
 
