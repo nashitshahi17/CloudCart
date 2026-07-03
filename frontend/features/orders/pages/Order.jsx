@@ -64,7 +64,7 @@ export default function Orders() {
 
                 </h1>
 
-                <p className="mt-2 text-gray-500">
+                <p className="mt-2 text-[var(--muted)]">
 
                     Start shopping to place your first order.
 
