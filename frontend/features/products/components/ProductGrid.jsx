@@ -15,7 +15,7 @@ export default function ProductGrid({
 
                 </h2>
 
-                <p className="mt-2 text-gray-500">
+                <p className="mt-2 text-[var(--muted)]">
 
                     Try another search later.
 

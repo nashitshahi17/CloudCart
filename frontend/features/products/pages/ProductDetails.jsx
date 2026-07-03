@@ -74,11 +74,11 @@ export default function ProductDetails() {
                     {product.name}
                 </h1>
 
-                <p className="text-gray-600">
+                <p className="text-[var(--muted)]">
                     {product.description}
                 </p>
 
-                <p className="text-3xl font-bold text-blue-600">
+                <p className="text-3xl font-bold text-[var(--color-primary)]600">
                     ₹{product.price}
                 </p>
 

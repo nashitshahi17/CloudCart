@@ -1,7 +1,9 @@
 import api from "../../../shared/api/axios";
 
-export const getProducts = async () => {
-    const response = await api.get("/api/products");
+export const getProducts = async (params={}) => {
+    const response = await api.get("/api/products",{
+        params
+    });
     return response.data;
 };
 

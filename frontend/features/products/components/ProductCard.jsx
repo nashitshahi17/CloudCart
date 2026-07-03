@@ -35,7 +35,7 @@ export default function ProductCard({
 
                 </h2>
 
-                <p className="text-sm text-gray-600 line-clamp-2">
+                <p className="text-sm text-[var(--muted)] line-clamp-2">
 
                     {product.description}
 
@@ -43,7 +43,7 @@ export default function ProductCard({
 
                 <div className="flex items-center justify-between">
 
-                    <span className="text-xl font-bold text-blue-600">
+                    <span className="text-xl font-bold text-[var(--color-primary)]">
 
                         ₹{product.price}
 
