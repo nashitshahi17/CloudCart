@@ -30,7 +30,7 @@ export default function FormField({
 
                 htmlFor={htmlFor}
 
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-[var(--muted)]"
 
             >
 

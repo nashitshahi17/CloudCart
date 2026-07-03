@@ -22,6 +22,8 @@ export default function CardTitle({
 
                 "tracking-tight",
 
+                "text-[var(--foreground)]",
+
                 className
 
             )}

@@ -4,6 +4,7 @@ import { cardVariants } from "./CardVariant";
 export default function Card({
 
     children,
+
     variant = "default",
 
     className = "",
@@ -20,7 +21,13 @@ export default function Card({
 
                 "rounded-xl",
 
-                cardVariants[variant] ?? cardVariants.default,
+                "overflow-hidden",
+
+                "text-[var(--foreground)]",
+
+                cardVariants[variant] ??
+
+                cardVariants.default,
 
                 className
 

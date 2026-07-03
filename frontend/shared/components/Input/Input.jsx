@@ -2,7 +2,6 @@ import { forwardRef } from "react";
 import { cn } from "../../utils/cn";
 
 const Input = forwardRef(
-
     (
         {
             type = "text",
@@ -34,9 +33,13 @@ const Input = forwardRef(
 
                     "border",
 
-                    "border-gray-300",
+                    "border-[var(--border)]",
 
-                    "bg-white",
+                    "bg-[var(--surface)]",
+
+                    "text-[var(--foreground)]",
+
+                    "placeholder:text-[var(--muted)]",
 
                     "px-4",
 
@@ -50,15 +53,15 @@ const Input = forwardRef(
 
                     "duration-200",
 
-                    "focus:border-blue-500",
+                    "focus:border-[var(--color-primary)]",
 
                     "focus:ring-2",
 
-                    "focus:ring-blue-200",
-
-                    "disabled:bg-gray-100",
+                    "focus:ring-[var(--color-primary)]/20",
 
                     "disabled:cursor-not-allowed",
+
+                    "disabled:opacity-60",
 
                     className
 

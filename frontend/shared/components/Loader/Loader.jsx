@@ -16,14 +16,14 @@ export default function Loader({
 
             <div
                 className={cn(
-                    "animate-spin rounded-full border-blue-600 border-t-transparent",
+                    "animate-spin rounded-full border-[var(--color-primary)] border-t-transparent",
                     sizeVariants[size] ?? sizeVariants.md,
                     className
                 )}
             />
 
             {text && (
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-[var(--muted)]">
                     {text}
                 </p>
             )}

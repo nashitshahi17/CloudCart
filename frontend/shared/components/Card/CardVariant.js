@@ -1,36 +1,36 @@
 export const cardVariants = {
 
-    default:
-        "border border-gray-200 bg-white shadow-sm",
-
-    elevated:
-        "border border-gray-200 bg-white shadow-lg",
-
-    outlined:
-        "border-2 border-gray-300 bg-white shadow-none",
-
-    interactive:
-        `
+    default: `
+        bg-[var(--surface)]
         border
-        border-gray-200
-        bg-white
+        border-[var(--border)]
         shadow-sm
+        hover:shadow-md
         transition-all
-        duration-300
-        hover:-translate-y-1
-        hover:shadow-lg
-        cursor-pointer
-        `,
+        duration-200
+    `,
 
-    dashboard:
-        `
+    elevated: `
+        bg-[var(--surface)]
         border
-        border-gray-200
-        bg-white
-        shadow-md
-        hover:shadow-xl
+        border-[var(--border)]
+        shadow-lg
         transition-all
-        duration-300
-        `
+        duration-200
+    `,
+
+    outlined: `
+        bg-[var(--surface)]
+        border-2
+        border-[var(--border)]
+        transition-all
+        duration-200
+    `,
+
+    ghost: `
+        bg-transparent
+        transition-all
+        duration-200
+    `
 
 };

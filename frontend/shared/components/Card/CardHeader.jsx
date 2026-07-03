@@ -24,6 +24,8 @@ export default function CardHeader({
 
                 "p-6",
 
+                "text-[var(--foreground)]",
+
                 className
 
             )}

@@ -1,1 +1,93 @@
 @import "tailwindcss";
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+:root {
+
+  /* Brand */
+
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+
+  /* Status */
+
+  --color-success: #16a34a;
+  --color-warning: #f59e0b;
+  --color-danger: #dc2626;
+
+  /* Background */
+
+  --background: #f8fafc;
+  --surface: #ffffff;
+  --surface-hover: #f1f5f9;
+
+  /* Text */
+
+  --foreground: #0f172a;
+  --muted: #64748b;
+
+  /* Border */
+
+  --border: #e2e8f0;
+
+}
+
+[data-theme="dark"] {
+
+  --color-primary: #3b82f6;
+  --color-primary-hover: #60a5fa;
+
+  --color-success: #22c55e;
+  --color-warning: #fbbf24;
+  --color-danger: #ef4444;
+
+  --background: #020617;
+  --surface: #0f172a;
+  --surface-hover: #1e293b;
+
+  --foreground: #f8fafc;
+  --muted: #94a3b8;
+
+  --border: #334155;
+
+}
+
+body,
+header,
+main,
+footer,
+button,
+input,
+select,
+textarea,
+div,
+section,
+article,
+aside,
+nav {
+
+    transition:
+
+        background-color 0.25s ease,
+
+        color 0.25s ease,
+
+        border-color 0.25s ease;
+
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--muted);
+}

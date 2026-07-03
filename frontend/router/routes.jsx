@@ -1,85 +1,80 @@
 import { Navigate } from "react-router-dom";
+
 import MainLayout from "../layouts/MainLayout";
-import ProtectedLayout from "../features/auth/layouts/ProtectedLayout";
-import AuthLayout from "../features/auth/layouts/AuthLayout";
-import GuestLayout from "../features/auth/layouts/GuestLayout";
-import ErrorPage from "../pages/ErrorPage/ErrorPage";
-import Home from "../pages/Home/Home";
+import GuestLayout from "../layouts/GuestLayout";
+
+import GuestRoute from "../features/auth/components/GuestRoute";
+import ProtectedRoute from "../features/auth/components/ProtectedRoute";
+
 import Login from "../features/auth/pages/Login";
 import Register from "../features/auth/pages/Register";
-import Products from "../features/products/pages/Products"
+
+import Products from "../features/products/pages/Products";
 import ProductDetails from "../features/products/pages/ProductDetails";
+
 import Cart from "../features/cart/pages/Cart";
 import Checkout from "../features/checkout/pages/Checkout";
+
 import Orders from "../features/orders/pages/Order";
 import OrderDetails from "../features/orders/pages/OrderDetails";
-import Profile from "../pages/Profile/Profile";
+
+import Profile from "../features/profile/pages/Profile";
 
 const routes = [
   {
-    path: "/",
-    element: <MainLayout />,
-    errorElement: <ErrorPage />,
+    element: <GuestRoute />,
     children: [
-      {
-        index: true,
-        element: <Navigate to="/products" replace />,
-      },
-      {
-        path: "home",
-        element: <Home />,
-      },
-
-      // Guest Routes
       {
         element: <GuestLayout />,
         children: [
           {
-            element: <AuthLayout />,
-            children: [
-              {
-                path: "login",
-                element: <Login />,
-              },
-              {
-                path: "register",
-                element: <Register />,
-              },
-            ],
+            path: "/login",
+            element: <Login />,
+          },
+          {
+            path: "/register",
+            element: <Register />,
           },
         ],
       },
-
-      // Protected Routes
+    ],
+  },
+  {
+    element: <ProtectedRoute />,
+    children: [
       {
-        element: <ProtectedLayout />,
+        element: <MainLayout />,
         children: [
           {
-            path: "products",
+            index: true,
+            element: <Navigate to="/products" replace />,
+          },
+          {
+            path: "/products",
             element: <Products />,
           },
           {
-            path: "products/:id",
+            path: "/products/:id",
             element: <ProductDetails />,
           },
           {
-            path: "cart",
+            path: "/cart",
             element: <Cart />,
           },
           {
-            path: "checkout",
+            path: "/checkout",
             element: <Checkout />,
           },
           {
-            path: "orders",
+            path: "/orders",
             element: <Orders />,
           },
           {
-            path: "orders/:id",
-            element: <OrderDetails />
+            path: "/orders/:id",
+            element: <OrderDetails />,
           },
           {
-            path: "profile",
+            path: "/profile",
             element: <Profile />,
           },
         ],

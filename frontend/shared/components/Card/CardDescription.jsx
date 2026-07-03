@@ -18,7 +18,7 @@ export default function CardDescription({
 
                 "text-sm",
 
-                "text-gray-500",
+                "text-[var(--muted)]",
 
                 className
 

@@ -26,7 +26,9 @@ export default function CardFooter({
 
                 "border-t",
 
-                "border-gray-100",
+                "border-[var(--border)]100",
+
+                "border-[var(--border)]",
 
                 "px-6",
 
