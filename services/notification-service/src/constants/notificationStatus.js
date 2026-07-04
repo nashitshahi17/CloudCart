@@ -1,0 +1,11 @@
+const NOTIFICATION_STATUS = {
+
+    PENDING: "PENDING",
+
+    SENT: "SENT",
+
+    FAILED: "FAILED"
+
+};
+
+module.exports = NOTIFICATION_STATUS;
