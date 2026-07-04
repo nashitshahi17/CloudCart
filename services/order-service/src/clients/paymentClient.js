@@ -11,7 +11,7 @@ const api = axios.create({
 
 });
 
-async function createPayment(paymentData) {
+async function createPayment(paymentData,token) {
 
     try {
 
@@ -19,7 +19,12 @@ async function createPayment(paymentData) {
 
             "/api/payments",
 
-            paymentData
+            paymentData,
+            {
+                headers:{
+                    Authorization: token
+                }
+            }
 
         );
 

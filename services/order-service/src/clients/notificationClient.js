@@ -11,15 +11,19 @@ const api = axios.create({
 
 });
 
-async function createNotification(notificationData) {
+async function createNotification(notificationData, token) {
 
     try {
-
         const response = await api.post(
 
-            "/api/notifications",
+            "/",
 
-            notificationData
+            notificationData,
+            {
+                headers: {
+                    Authorization: token
+                }
+            }
 
         );
 

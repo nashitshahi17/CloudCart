@@ -16,7 +16,7 @@ async function getCart(userId,token) {
             `/internal/cart/${userId}`,
             {
                 headers:{
-                    Authorization: token
+                    Authorization: token 
                 }
             }
 

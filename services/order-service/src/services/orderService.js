@@ -10,7 +10,7 @@ const paymentClient = require('../clients/paymentClient')
 const notificationClient = require("../clients/notificationClient");
 
 async function createOrder(userId, orderData, token) {
-    const { shippingAddress } = orderData;
+    const { shippingAddress,paymentMethod } = orderData;
 
     if (!shippingAddress) {
         throw new AppError(
@@ -20,7 +20,7 @@ async function createOrder(userId, orderData, token) {
     }
 
     // Get user's cart
-    const cart = await cartClient.getCart(userId, token);
+    const cart = await cartClient.getCart(userId,token);
 
     if (!cart.items || cart.items.length === 0) {
         throw new AppError(
@@ -55,8 +55,8 @@ async function createOrder(userId, orderData, token) {
             orderId: order._id,
             userId,
             amount: totalAmount,
-            method: "UPI"
-        });
+            method: paymentMethod
+        },token);
 
         // Clear cart after successful payment
         await cartClient.clearCart(userId, token);
@@ -75,7 +75,7 @@ async function createOrder(userId, orderData, token) {
             title: "Order Placed Successfully",
             message: `Your payment for order ${order._id} was successful.`,
             type: "PAYMENT_SUCCESS"
-        });
+        },token);
     } catch (error) {
         console.error("Notification failed:", error.message);
     }

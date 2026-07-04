@@ -1,0 +1,13 @@
+const PAYMENT_METHOD = {
+
+    CARD: "CARD",
+
+    UPI: "UPI",
+
+    NET_BANKING: "NET_BANKING",
+
+    CASH_ON_DELIVERY: "CASH_ON_DELIVERY"
+
+};
+
+module.exports = PAYMENT_METHOD;
