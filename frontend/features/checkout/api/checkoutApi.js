@@ -1,15 +1,15 @@
 import api from "../../../shared/api/axios";
 
-export async function placeOrder(orderData) {
+export async function checkout(data) {
 
-    const { data } = await api.post(
+    const response = await api.post(
 
         "/api/orders",
 
-        orderData
+        data
 
     );
 
-    return data;
+    return response.data.data;
 
 }

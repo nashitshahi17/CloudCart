@@ -4,7 +4,6 @@ import Loader from "../../../shared/components/Loader/Loader";
 import Button from "../../../shared/components/Button/Button";
 import { useAddToCart } from "../../cart/hooks/useAddToCart";
 import { toast } from "react-hot-toast";
-import LogoutButton from '../../auth/components/LogoutButton'
 
 export default function ProductDetails() {
     const { id } = useParams();
@@ -96,8 +95,6 @@ export default function ProductDetails() {
                 >
                     {isAddingToCart ? "Adding..." : "Add To Cart"}
                 </Button>
-    
-<LogoutButton />
             </div>
         </div>
     );

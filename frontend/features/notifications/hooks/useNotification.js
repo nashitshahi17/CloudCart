@@ -1,0 +1,21 @@
+import { useQuery } from "@tanstack/react-query";
+
+import {
+
+    getNotifications
+
+} from "../api/notificationApi";
+
+export default function useNotifications() {
+
+    return useQuery({
+
+        queryKey: ["notifications"],
+
+        queryFn: getNotifications,
+
+        staleTime: 60000
+
+    });
+
+}

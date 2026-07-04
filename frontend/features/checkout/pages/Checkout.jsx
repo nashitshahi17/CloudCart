@@ -1,227 +1,86 @@
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 import Button from "../../../shared/components/Button/Button";
-import Input from "../../../shared/components/Input/Input";
-import FormField from "../../../shared/components/FormField/FormField";
 import Loader from "../../../shared/components/Loader/Loader";
 
 import { useCart } from "../../cart/hooks/useCart";
-import { useCheckoutForm } from "../hooks/useCheckoutForm";
-import { usePlaceOrder } from "../hooks/usePlaceOrder";
+import useCheckout from "../hooks/useCheckout"
+
+// These are your modular UI components (must exist)
+import ShippingAddressForm from "../components/ShippingAddressForm";
+import PaymentMethod from "../components/PaymentMethod";
+import OrderSummary from "../components/OrderSummary";
+import CheckoutActions from "../components/CheckoutActions";
 
 export default function Checkout() {
-
     const navigate = useNavigate();
 
-    const {
+    const [shippingAddress, setShippingAddress] = useState("");
+    const [paymentMethod, setPaymentMethod] = useState("UPI");
 
-        data,
+    const { data, isLoading } = useCart();
 
-        isLoading
-
-    } = useCart();
-
-    const {
-
-        register,
-
-        handleSubmit,
-
-        formState: { errors }
-
-    } = useCheckoutForm();
-
-    const {
-
-        mutate,
-
-        isPending
-
-    } = usePlaceOrder({
-
+    const { mutate: placeOrder, isPending } = useCheckout({
         onSuccess: () => {
-
             toast.success("Order placed successfully");
-
             navigate("/orders");
-
         },
-
         onError: (error) => {
-
             toast.error(
-
-                error.response?.data?.message ||
-
-                "Failed to place order"
-
+                error?.response?.data?.message ||
+                    "Failed to place order"
             );
-
-        }
-
+        },
     });
 
+    function handleCheckout() {
+        placeOrder({
+            shippingAddress,
+            paymentMethod,
+        });
+    }
+
     if (isLoading) {
-
         return (
-
-            <Loader
-
-                size="lg"
-
-                text="Loading Checkout..."
-
-            />
-
+            <Loader size="lg" text="Loading Checkout..." />
         );
-
     }
 
     const cart = data?.data;
 
-    const onSubmit = (formData) => {
-
-        mutate({
-
-            shippingAddress:
-
-                formData.shippingAddress
-
-        });
-
-    };
-
     return (
-
         <div className="grid gap-8 lg:grid-cols-2">
-
+            {/* LEFT SIDE */}
             <div>
-
                 <h1 className="mb-6 text-3xl font-bold">
-
-                    Shipping Address
-
+                    Checkout
                 </h1>
 
-                <form
+                <ShippingAddressForm
+                    value={shippingAddress}
+                    onChange={setShippingAddress}
+                />
 
-                    onSubmit={handleSubmit(onSubmit)}
+                <PaymentMethod
+                    value={paymentMethod}
+                    onChange={setPaymentMethod}
+                />
 
-                    className="space-y-5"
-
-                >
-
-                    <FormField
-
-                        label="Shipping Address"
-
-                        required
-
-                        error={errors.shippingAddress?.message}
-
-                    >
-
-                        <Input
-
-                            {...register("shippingAddress")}
-
-                            placeholder="Enter your complete shipping address"
-
-                        />
-
-                    </FormField>
-
-                    <Button
-
-                        type="submit"
-
-                        className="w-full"
-
-                        disabled={isPending}
-
-                    >
-
-                        {
-
-                            isPending
-
-                                ?
-
-                                "Placing Order..."
-
-                                :
-
-                                "Place Order"
-
-                        }
-
-                    </Button>
-
-                </form>
-
+                <CheckoutActions
+                    loading={isPending}
+                    onSubmit={handleCheckout}
+                />
             </div>
 
+            {/* RIGHT SIDE */}
             <div className="rounded-lg border p-6 h-fit">
-
-                <h2 className="text-2xl font-semibold">
-
-                    Order Summary
-
-                </h2>
-
-                <div className="mt-6 space-y-3">
-
-                    {
-
-                        cart.items.map(item => (
-
-                            <div
-
-                                key={item.productId}
-
-                                className="flex justify-between"
-
-                            >
-
-                                <span>
-
-                                    {item.name} × {item.quantity}
-
-                                </span>
-
-                                <span>
-
-                                    ₹{item.subtotal}
-
-                                </span>
-
-                            </div>
-
-                        ))
-
-                    }
-
-                </div>
-
-                <hr className="my-6"/>
-
-                <div className="flex justify-between text-xl font-bold">
-
-                    <span>Total</span>
-
-                    <span>
-
-                        ₹{cart.totalAmount}
-
-                    </span>
-
-                </div>
-
+                <OrderSummary
+                    cartItems={cart?.items || []}
+                    totalAmount={cart?.totalAmount || 0}
+                />
             </div>
-
         </div>
-
     );
-
 }

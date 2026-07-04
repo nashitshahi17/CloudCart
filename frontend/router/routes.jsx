@@ -19,6 +19,7 @@ import Orders from "../features/orders/pages/Order";
 import OrderDetails from "../features/orders/pages/OrderDetails";
 
 import Profile from "../features/profile/pages/Profile";
+import Notifications from "../features/notifications/pages/Notification";
 
 const routes = [
   {
@@ -77,6 +78,10 @@ const routes = [
             path: "/profile",
             element: <Profile />,
           },
+          {
+            path: "/notifications",
+            element: <Notifications />
+          }
         ],
       },
     ],
