@@ -1,37 +1,22 @@
 import { Search } from "lucide-react";
+import Input from "../../../shared/components/Input/Input";
 
-export default function ProductSearch({
-
-    value,
-
-    onChange
-
-}) {
+export default function ProductSearch({ value, onChange }) {
 
     return (
 
         <div className="relative">
 
             <Search
-
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)]"
-
                 size={20}
-
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)]"
             />
 
-            <input
-
-                type="text"
-
-                placeholder="Search products..."
-
+            <Input
                 value={value}
-
+                placeholder="Search products..."
                 onChange={(e) => onChange(e.target.value)}
-
-                className="w-full rounded-lg border py-3 pl-10 pr-4 outline-none focus:ring-2 focus:ring-blue-500"
-
+                className="h-14 pl-12 text-base"
             />
 
         </div>

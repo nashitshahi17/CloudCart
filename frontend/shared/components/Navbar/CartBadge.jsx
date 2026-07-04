@@ -9,46 +9,107 @@ export default function CartBadge() {
 
     const cart = data?.data;
 
-    const totalItems = cart?.items?.reduce(
+    const totalItems =
 
-        (total, item) => total + item.quantity,
+        cart?.items?.reduce(
 
-        0
+            (total, item) => total + item.quantity,
 
-    ) ?? 0;
+            0
+
+        ) ?? 0;
 
     return (
 
         <Link
+
             to="/cart"
-            className="relative flex items-center"
+
+            className="
+                relative
+
+                rounded-full
+
+                p-2
+
+                transition-all
+
+                duration-200
+
+                hover:bg-[var(--surface-hover)]
+
+                hover:scale-105
+
+                active:scale-95
+            "
+
+            aria-label="Shopping Cart"
+
         >
 
-            <ShoppingCart size={24} className="text-[var(--foreground)]" />
+            <ShoppingCart
+
+                size={22}
+
+                className="text-[var(--foreground)]"
+
+            />
 
             {
 
                 totalItems > 0 && (
 
                     <span
+
                         className="
                             absolute
-                            -right-2
-                            -top-2
+
+                            -right-1
+
+                            -top-1
+
                             flex
+
                             h-5
-                            w-5
+
+                            min-w-[20px]
+
                             items-center
+
                             justify-center
+
                             rounded-full
+
                             bg-[var(--color-danger)]
-                            text-xs
+
+                            px-1
+
+                            text-[10px]
+
                             font-bold
+
+                            leading-none
+
                             text-white
+
+                            shadow-md
+
+                            ring-2
+
+                            ring-[var(--surface)]
                         "
+
                     >
 
-                        {totalItems}
+                        {
+
+                            totalItems > 9
+
+                                ? "9+"
+
+                                : totalItems
+
+                        }
 
                     </span>
 

@@ -17,6 +17,13 @@ export default function Button({
             bg-[var(--color-primary)]
             text-white
             hover:bg-[var(--color-primary-hover)]
+            rounded-xl
+            shadow-md
+            hover:shadow-lg
+            hover:-translate-y-0.5
+            active:scale-95
+            transition-all
+            duration-300
             `,
 
         secondary:

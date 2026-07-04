@@ -16,7 +16,9 @@ export default function CardTitle({
 
             className={cn(
 
-                "text-2xl",
+                "text-xl",
+
+                "leading-tight",
 
                 "font-bold",
 

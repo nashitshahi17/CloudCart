@@ -54,7 +54,40 @@ export default function ProductSort({
 
             onChange={handleChange}
 
-            className="rounded-lg border px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+            className="
+w-full
+md:w-56
+
+rounded-xl
+
+border
+
+border-[var(--border)]
+
+bg-[var(--surface)]
+
+px-4
+
+py-3
+
+text-[var(--foreground)]
+
+shadow-sm
+
+transition-all
+
+duration-300
+
+hover:border-[var(--color-primary)]
+
+focus:border-[var(--color-primary)]
+
+focus:outline-none
+
+focus:ring-4
+
+focus:ring-[var(--color-primary)]/20
+"
 
         >
 

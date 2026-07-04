@@ -18,6 +18,8 @@ export default function CardDescription({
 
                 "text-sm",
 
+                "leading-relaxed",
+
                 "text-[var(--muted)]",
 
                 className

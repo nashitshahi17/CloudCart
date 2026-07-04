@@ -18,7 +18,7 @@ export default function CardContent({
 
                 "px-6",
 
-                "pb-6",
+                "py-4",
 
                 className
 

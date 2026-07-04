@@ -20,9 +20,13 @@ export default function CardHeader({
 
                 "flex-col",
 
-                "space-y-2",
+                "space-y-1",
 
-                "p-6",
+                "px-6",
+
+                "pt-5",
+
+                "pb-3",
 
                 "text-[var(--foreground)]",
 

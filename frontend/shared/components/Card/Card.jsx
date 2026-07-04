@@ -19,7 +19,21 @@ export default function Card({
 
             className={cn(
 
-                "rounded-xl",
+                "rounded-2xl",
+
+                "border",
+
+                "border-[var(--border)]",
+
+                "shadow-sm",
+
+                "transition-all",
+
+                "duration-300",
+
+                "hover:-translate-y-1",
+
+                "hover:shadow-xl",
 
                 "overflow-hidden",
 

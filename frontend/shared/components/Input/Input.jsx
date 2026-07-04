@@ -29,7 +29,7 @@ const Input = forwardRef(
 
                     "w-full",
 
-                    "rounded-lg",
+                    "rounded-xl",
 
                     "border",
 
@@ -43,13 +43,22 @@ const Input = forwardRef(
 
                     "px-4",
 
-                    "py-2.5",
+                    "h-12",
+
+                    "px-4",
 
                     "text-sm",
 
                     "outline-none",
 
                     "transition-all",
+                    "shadow-sm",
+
+                    "hover:border-[var(--color-primary)]/40",
+
+                    "focus:shadow-lg",
+
+                    "focus:shadow-[var(--color-primary)]/10",
 
                     "duration-200",
 

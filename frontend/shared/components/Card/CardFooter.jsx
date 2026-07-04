@@ -20,19 +20,19 @@ export default function CardFooter({
 
                 "items-center",
 
-                "justify-end",
+                "justify-between",
 
                 "gap-3",
 
                 "border-t",
 
-                "border-[var(--border)]100",
+                "border-[var(--border)]",
 
                 "border-[var(--border)]",
 
                 "px-6",
 
-                "py-4",
+                "py-5",
 
                 className
 

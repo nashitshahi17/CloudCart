@@ -10,7 +10,7 @@ export default function ProductCard({
     return (
         <Card
             variant="interactive"
-            className="overflow-hidden"
+            className="group overflow-hidden"
         >
 
             <img
@@ -23,7 +23,19 @@ export default function ProductCard({
 
                 alt={product.name}
 
-                className="h-56 w-full object-cover"
+                className="
+h-60
+
+w-full
+
+object-cover
+
+transition-transform
+
+duration-500
+
+group-hover:scale-105
+"
 
             />
 
@@ -45,7 +57,7 @@ export default function ProductCard({
 
                     <span className="text-xl font-bold text-[var(--color-primary)]">
 
-                        ₹{product.price}
+                        ₹{product.price.toLocaleString("en-IN")}
 
                     </span>
 
@@ -53,7 +65,7 @@ export default function ProductCard({
 
                         <Button>
 
-                            View
+                            View Details
 
                         </Button>
 

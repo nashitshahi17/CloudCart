@@ -1,51 +1,68 @@
 import { NavLink } from "react-router-dom";
-import { Bell } from "lucide-react";
 
 const links = [
-  {
-    name: "Products",
-    path: "/products",
-  },
-  {
-    name: "Orders",
-    path: "/orders",
-  },
-  {
-    name: "Notifications",
-    path: "/notifications",
-    icon: Bell,
-  },
+
+    {
+
+        label:"Products",
+
+        to:"/"
+
+    },
+
+    {
+
+        label:"Orders",
+
+        to:"/orders"
+
+    },
+
 ];
 
-export default function NavLinks() {
-  return (
-    <nav className="flex gap-6">
-      {links.map((link) => {
-        const Icon = link.icon;
+export default function NavLinks(){
 
-        return (
-          <NavLink
-            key={link.path}
-            to={link.path}
-            className={({ isActive }) =>
-              `
-                flex items-center gap-2
-                font-medium
-                transition-colors
-                duration-200
-                ${
-                  isActive
-                    ? "text-[var(--color-primary)]"
-                    : "text-[var(--foreground)] hover:text-[var(--color-primary)]"
-                }
-              `
+    return(
+
+        <div className="flex items-center gap-6">
+
+            {
+
+                links.map(link=>(
+
+                    <NavLink
+
+                        key={link.to}
+
+                        to={link.to}
+
+                        className={({isActive})=>
+
+                            `
+                            transition-colors
+
+                            ${
+                                isActive
+
+                                ? "text-[var(--color-primary)] font-semibold"
+
+                                : "hover:text-[var(--color-primary)]"
+                            }
+                            `
+                        }
+
+                    >
+
+                        {link.label}
+
+                    </NavLink>
+
+                ))
+
             }
-          >
-            {Icon && <Icon size={18} />}
-            <span>{link.name}</span>
-          </NavLink>
-        );
-      })}
-    </nav>
-  );
+
+        </div>
+
+    );
+
 }

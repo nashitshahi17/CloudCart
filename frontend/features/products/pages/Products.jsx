@@ -43,24 +43,42 @@ export default function Products() {
             <div className="flex justify-end mb-4">
             </div>
 
-            <ProductSearch
-                value={search}
-                onChange={setSearch}
-            />
+            <div className="mb-8 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-sm">
 
-            <ProductFilter
-                category={category}
-                onCategoryChange={setCategory}
-            />
+                <ProductSearch
+                    value={search}
+                    onChange={setSearch}
+                />
 
-            <ProductSort 
-                sortBy={sortBy}
-                order={order}
-                onSortChange={({sortBy,order})=>{
-                    setSortBy(sortBy)
-                    setOrder(order)
-                }}
-            />
+                <div className="mt-5 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+
+                    <div className="flex flex-col gap-4 sm:flex-row">
+
+                        <ProductFilter
+                            category={category}
+                            onCategoryChange={setCategory}
+                        />
+
+                        <ProductSort
+                            sortBy={sortBy}
+                            order={order}
+                            onSortChange={({ sortBy, order }) => {
+                                setSortBy(sortBy);
+                                setOrder(order);
+                            }}
+                        />
+
+                    </div>
+
+                    <p className="text-sm text-[var(--muted)]">
+
+                        {products.length} Products Found
+
+                    </p>
+
+                </div>
+
+            </div>
 
             <ProductGrid
                 products={products}
