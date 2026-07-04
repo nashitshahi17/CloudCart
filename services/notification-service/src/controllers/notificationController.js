@@ -7,7 +7,6 @@ const HTTP_STATUS = require("../constants/httpStatus");
 const MESSAGES = require("../constants/messages");
 
 const handleCreateNotification = catchAsync(async (req, res) => {
-
     const notification = await notificationService.createNotification(req.body);
 
     return successResponse(
@@ -32,10 +31,10 @@ const handleGetNotification = catchAsync(async (req, res) => {
 
 });
 
-const handleGetUserNotifications = catchAsync(async (req, res) => {
+const handleGetMyNotifications = catchAsync(async (req, res) => {
 
     const notifications = await notificationService.getUserNotifications(
-        req.params.userId
+        req.user.id
     );
 
     return successResponse(
@@ -51,6 +50,5 @@ module.exports = {
 
     handleCreateNotification,
     handleGetNotification,
-    handleGetUserNotifications
-
+    handleGetMyNotifications
 };

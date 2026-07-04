@@ -25,9 +25,9 @@ router.get(
 );
 
 router.get(
-    "/user/:userId",
+    "/",
     authenticateUser,
-    notificationController.handleGetUserNotifications
+    notificationController.handleGetMyNotifications
 );
 
 module.exports = router;

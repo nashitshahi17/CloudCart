@@ -15,7 +15,7 @@ connectDB(process.env.MONGO_URI)
 })
 
 app.use(express.json())
-app.use("/api/notifications", notificationRoutes);
+app.use("/", notificationRoutes);
 
 
 app.listen(PORT,()=>console.log(`Server start at ${PORT}`))
