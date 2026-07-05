@@ -19,5 +19,11 @@ app.use('/api/products',productRoute)
 app.use('/api/orders',orderRoute)
 app.use('/api/cart',cartRoute)
 app.use('/api/notifications',notficationRoute)
+app.get("/health", (req, res) => {
+    res.status(200).json({
+        status: "UP",
+        service: "API Gateway"
+    });
+});
 
 app.listen(PORT,()=>{console.log(`Server Running on ${PORT}`)})
