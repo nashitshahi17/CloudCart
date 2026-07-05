@@ -1,27 +1,35 @@
-# ---------- Base Image ----------
-
-FROM node:22-alpine
-
-# ---------- Working Directory ----------
+# -------------------------------
+# Stage 1 - Install Dependencies
+# -------------------------------
+FROM node:22-alpine AS dependencies
 
 WORKDIR /app
 
-# ---------- Copy Package Files ----------
-
 COPY package*.json ./
 
-# ---------- Install Dependencies ----------
+RUN npm ci
 
-RUN npm install
 
-# ---------- Copy Application ----------
+# -------------------------------
+# Stage 2 - Production Image
+# -------------------------------
+FROM node:22-alpine
+
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+COPY --from=dependencies /app/node_modules ./node_modules
 
 COPY . .
 
-# ---------- Expose Port ----------
+RUN addgroup -S cloudcart && adduser -S cloudcart -G cloudcart
+
+USER cloudcart
 
 EXPOSE 5000
 
-# ---------- Start Server ----------
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+CMD wget --spider http://localhost:5000/ || exit 1
 
 CMD ["npm", "start"]
