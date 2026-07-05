@@ -1,7 +1,5 @@
 node_modules
 
-npm-debug.log
-
 .git
 
 .gitignore
@@ -11,3 +9,9 @@ Dockerfile
 .dockerignore
 
 README.md
+
+npm-debug.log
+
+.env
+
+.vscode
