@@ -3,6 +3,7 @@ const {connectDB} = require('./src/config/db')
 const express = require('express')
 const cartRoutes = require('./src/routes/cartRoutes');
 const internalCartRoutes = require('./src/routes/internalCartRoutes')
+const healthRoute = require('./src/routes/health')
 const app = express()
 const PORT = process.env.PORT
 
@@ -15,6 +16,7 @@ connectDB(process.env.MONGO_URI)
 .catch((error)=>{
     console.log(error)
 })
+app.use('/health',healthRoute)  
 app.use("/", cartRoutes);
 app.use("/internal/cart",internalCartRoutes);
 

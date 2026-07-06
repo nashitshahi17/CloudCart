@@ -3,6 +3,7 @@ const express = require('express')
 const {connectDB} = require('./src/config/db')
 const productRoutes = require('./src/routes/product')
 const internalProductRoutes = require('./src/routes/internalProductRoutes')
+const healthRoute = require('./src/routes/health')
 
 const app = express()
 
@@ -15,7 +16,7 @@ connectDB(process.env.MONGO_URI)
 .catch((error)=>{
     console.log(error)
 })
-    
+app.use('/health',healthRoute)  
 app.use('/',productRoutes)
 app.use('/internal/products',internalProductRoutes)
 

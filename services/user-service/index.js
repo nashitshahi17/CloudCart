@@ -3,6 +3,7 @@ const express = require('express')
 const {connectDB} = require('./src/config/db')
 const urlRoute = require('./src/routes/user')
 const errorHandler = require('./src/middlewares/errorHandler');
+const healthRoute = require("./src/routes/health");
 
 const app = express()
 const PORT = process.env.PORT 
@@ -18,6 +19,7 @@ app.use(express.urlencoded({extended: false}))
 
 
 // API Routes
+app.use("/health", healthRoute);
 app.use('/',urlRoute)
 
 app.use(errorHandler)

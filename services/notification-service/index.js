@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const {connectDB} = require('./src/config/db')
 const notificationRoutes = require("./src/routes/notificationRoute");
+const healthRoute = require('./src/routes/health')
 
 const PORT = process.env.PORT
 const app = express()
@@ -15,6 +16,7 @@ connectDB(process.env.MONGO_URI)
 })
 
 app.use(express.json())
+app.use('/health',healthRoute)  
 app.use("/", notificationRoutes);
 
 
