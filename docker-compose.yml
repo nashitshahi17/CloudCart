@@ -1,0 +1,212 @@
+version: "3.9"
+
+services:
+
+  mongodb:
+
+    image: mongo:7
+
+    container_name: cloudcart-mongodb
+
+    restart: unless-stopped
+
+    ports:
+      - "27017:27017"
+
+    volumes:
+      - mongo-data:/data/db
+
+    networks:
+      - cloudcart-network
+
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+
+  user-service:
+
+    build:
+      context: ./services/user-service
+
+    container_name: cloudcart-user-service
+
+    restart: unless-stopped
+
+    env_file:
+      - ./services/user-service/.env
+
+    ports:
+      - "8000:8000"
+
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+    networks:
+      - cloudcart-network
+  
+  product-service:
+    build:
+      context: ./services/product-service
+
+    container_name: cloudcart-product-service
+
+    restart: unless-stopped
+
+    env_file:
+    - ./services/product-service/.env
+
+    ports:
+    - "8001:8001"
+
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+    networks:
+    - cloudcart-network
+  cart-service:
+    build:
+      context: ./services/cart-service
+
+    container_name: cloudcart-cart-service
+
+    restart: unless-stopped
+
+    env_file:
+    - ./services/cart-service/.env
+
+    ports:
+    - "8003:8003"
+
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+    networks:
+    - cloudcart-network
+  order-service:
+    build:
+      context: ./services/order-service
+
+    container_name: cloudcart-order-service
+
+    restart: unless-stopped
+
+    env_file:
+    - ./services/order-service/.env
+
+    ports:
+    - "8002:8002"
+
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+    networks:
+    - cloudcart-network
+  payment-service:
+    build:
+      context: ./services/payment-service
+
+    container_name: cloudcart-payment-service
+
+    restart: unless-stopped
+
+    env_file:
+    - ./services/payment-service/.env
+
+    ports:
+    - "8004:8004"
+
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+    networks:
+    - cloudcart-network
+  notification-service:
+    build:
+      context: ./services/notification-service
+
+    container_name: cloudcart-notification-service
+
+    restart: unless-stopped
+
+    env_file:
+    - ./services/notification-service/.env
+
+    ports:
+    - "8005:8005"
+
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+    networks:
+    - cloudcart-network
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+
+    container_name: cloudcart-api-gateway
+
+    restart: unless-stopped
+
+    env_file:
+      - ./api-gateway/.env
+
+    ports:
+      - "5000:5000"
+
+    depends_on:
+      user-service:
+        condition: service_started
+      product-service:
+        condition: service_started
+      cart-service:
+        condition: service_started
+      order-service:
+        condition: service_started
+      payment-service:
+        condition: service_started
+      notification-service:
+        condition: service_started
+
+    networks:
+      - cloudcart-network
+  
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_BASE_URL: http://localhost:5000
+
+    container_name: cloudcart-frontend
+
+    restart: unless-stopped
+
+    ports:
+      - "3000:80"
+
+    depends_on:
+      api-gateway:
+        condition: service_started
+
+    networks:
+      - cloudcart-network
+
+volumes:
+
+  mongo-data:
+
+
+networks:
+
+  cloudcart-network:
+
+    driver: bridge
