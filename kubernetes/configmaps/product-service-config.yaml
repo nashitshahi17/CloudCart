@@ -1,0 +1,15 @@
+apiVersion: v1
+
+kind: ConfigMap
+
+metadata:
+  name: product-service-config
+  namespace: cloudcart
+
+data:
+
+  PORT: "8001"
+
+  MONGO_URI: mongodb://mongodb:27017/cloudcart_products
+
+  JWT_EXPIRES_IN: 1d
