@@ -1,0 +1,17 @@
+apiVersion: v1
+
+kind: ConfigMap
+
+metadata:
+  name: user-service-config
+  namespace: cloudcart
+
+data:
+
+  PORT: "8000"
+
+  MONGO_URI: mongodb://mongodb:27017/cloudcart_users
+
+  JWT_EXPIRES_IN: 1d
+
+  BCRYPT_SALT_ROUNDS: "10"
