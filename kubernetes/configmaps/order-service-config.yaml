@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: order-service-config
+  namespace: cloudcart
+
+data:
+
+  PORT: "8002"
+
+  MONGO_URI: mongodb://mongodb:27017/cloudcart_orders
+
+  JWT_EXPIRES_IN: "1d"
+
+  PRODUCT_SERVICE_URL: http://product-service:8001
+
+  CART_SERVICE_URL: http://cart-service:8003
+  
+  PAYMENT_SERVICE_URL: http://payment-service:8004
+  
+  NOTIFICATION_SERVICE_URL: http://notification-service:8005
