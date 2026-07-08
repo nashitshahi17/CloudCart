@@ -43,7 +43,7 @@ spec:
                 name: user-service-config
 
             - secretRef:
-                name: user-service-secret
+                name: cloudcart-secret
 
           resources:
 
