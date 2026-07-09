@@ -4,7 +4,7 @@ export async function checkout(data) {
 
     const response = await api.post(
 
-        "/api/orders",
+        "/orders",
 
         data
 

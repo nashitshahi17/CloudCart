@@ -1,16 +1,16 @@
 import api from '../../../shared/api/axios'
 
 export const registerUser = async(userData)=>{
-    const response = await api.post('/api/users/register',userData)
+    const response = await api.post('/users/register',userData)
     return response.data
 }
 
 export const loginUser = async (credentials) => {
-    const response = await api.post("/api/users/login", credentials);
+    const response = await api.post("/users/login", credentials);
     return response.data;
 };
 
 export const getProfile = async () => {
-    const response = await api.get("/api/users/profile");
+    const response = await api.get("/users/profile");
     return response.data;
 };

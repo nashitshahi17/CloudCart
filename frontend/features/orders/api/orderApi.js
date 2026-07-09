@@ -2,7 +2,7 @@ import api from "../../../shared/api/axios";
 
 export async function getOrders(params = {}) {
 
-    const { data } = await api.get("/api/orders", {
+    const { data } = await api.get("/orders", {
         params
     });
 
@@ -11,7 +11,7 @@ export async function getOrders(params = {}) {
 
 export async function getOrder(orderId) {
 
-    const { data } = await api.get(`/api/orders/${orderId}`);
+    const { data } = await api.get(`/orders/${orderId}`);
 
     return data;
 }

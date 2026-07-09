@@ -2,7 +2,7 @@ import api from "../../../shared/api/axios";
 
 export const getCart = async () => {
 
-    const { data } = await api.get("/api/cart");
+    const { data } = await api.get("/cart");
 
     return data;
 
@@ -12,7 +12,7 @@ export const addToCart = async (cartItem) => {
 
     const { data } = await api.post(
 
-        "/api/cart",
+        "/cart",
 
         cartItem
 
@@ -32,7 +32,7 @@ export const updateCartItem = async ({
 
     const { data } = await api.patch(
 
-        `/api/cart/${productId}`,
+        `/cart/${productId}`,
 
         {
 
@@ -50,7 +50,7 @@ export const removeCartItem = async (productId) => {
 
     const { data } = await api.delete(
 
-        `/api/cart/${productId}`
+        `/cart/${productId}`
 
     );
 
@@ -62,7 +62,7 @@ export const clearCart = async () => {
 
     const { data } = await api.delete(
 
-        "/api/cart"
+        "/cart"
 
     );
 
