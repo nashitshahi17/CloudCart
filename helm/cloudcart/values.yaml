@@ -1,0 +1,132 @@
+namespace: cloudcart
+
+global:
+  imagePullPolicy: Never
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
+
+mongodb:
+  image: mongo:7
+  port: 27017
+  storage: 20Gi
+
+services:
+  user:
+    enabled: true
+    image: cloudcart-user-service:v1
+    replicas: 2
+    port: 8000
+    configMap: user-service-config
+    healthPath: /health
+
+    env:
+      PORT: "8000"
+      MONGO_URI: mongodb://mongodb:27017/cloudcart_users
+      JWT_EXPIRES_IN: "1d"
+      BCRYPT_SALT_ROUNDS: "10"
+
+  product:
+    enabled: true
+    image: cloudcart-product-service:v1
+    replicas: 2
+    port: 8001
+    configMap: product-service-config
+    healthPath: /health
+
+    env:
+      PORT: "8001"
+      MONGO_URI: mongodb://mongodb:27017/cloudcart_products
+
+  cart:
+    enabled: true
+    image: cloudcart-cart-service:v1
+    replicas: 2
+    port: 8003
+    configMap: cart-service-config
+    healthPath: /health
+
+    env:
+      PORT: "8003"
+      MONGO_URI: mongodb://mongodb:27017/cloudcart_cart
+      JWT_EXPIRES_IN: "1d"
+      PRODUCT_SERVICE_URL: http://product:8001
+
+  order:
+    enabled: true
+    image: cloudcart-order-service:v1
+    replicas: 2
+    port: 8002
+    configMap: order-service-config
+    healthPath: /health
+
+    env:
+      PORT: "8002"
+      MONGO_URI: mongodb://mongodb:27017/cloudcart_orders
+      JWT_EXPIRES_IN: "1d"
+      PRODUCT_SERVICE_URL: http://product:8001
+      CART_SERVICE_URL: http://cart:8003
+      PAYMENT_SERVICE_URL: http://payment:8004
+      NOTIFICATION_SERVICE_URL: http://notification:8005
+
+  payment:
+    enabled: true
+    image: cloudcart-payment-service:v1
+    replicas: 2
+    port: 8004
+    configMap: payment-service-config
+    healthPath: /health
+
+    env:
+      PORT: "8004"
+      PAYMENT_PROCESSING_DELAY: "2000"
+      PAYMENT_SUCCESS_RATE: "0.9"
+      MONGO_URI: mongodb://mongodb:27017/cloudcart_payment
+      JWT_EXPIRES_IN: "1d"
+
+  notification:
+    enabled: true
+    image: cloudcart-notification-service:v1
+    replicas: 2
+    port: 8005
+    configMap: notification-service-config
+    healthPath: /health
+
+    env:
+      PORT: "8005"
+      MONGO_URI: mongodb://mongodb:27017/cloudcart_notification
+      JWT_EXPIRES_IN: "1d"
+      NOTIFICATION_PROCESSING_DELAY: "1000"
+      NOTIFICATION_SUCCESS_RATE: "0.98"
+
+  api-gateway:
+    enabled: true
+    image: cloudcart-api-gateway:v1
+    replicas: 2
+    port: 5000
+    configMap: api-gateway-config
+    healthPath: /health
+
+    env:
+      PORT: "5000"
+      USER_SERVICE_URL: http://user:8000
+      PRODUCT_SERVICE_URL: http://product:8001
+      ORDER_SERVICE_URL: http://order:8002
+      CART_SERVICE_URL: http://cart:8003
+      PAYMENT_SERVICE_URL: http://payment:8004
+      NOTIFICATION_SERVICE_URL: http://notification:8005
+      CORS_ORIGIN: http://cloudcart.local
+
+frontend:
+  enabled: true
+  image: cloudcart-frontend:v1
+  replicas: 2          
+  port: 80
+
+ingress:
+  enabled: true
+  host: cloudcart.local
