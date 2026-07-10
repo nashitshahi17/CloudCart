@@ -1,0 +1,23 @@
+{{- range $name, $service := .Values.services }}
+
+{{- if $service.enabled }}
+
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: {{ $service.configMap }}
+  namespace: {{ $.Values.namespace }}
+
+  labels:
+{{ include "cloudcart.labels" $ | nindent 4 }}
+
+data:
+
+{{- range $key, $value := $service.env }}
+  {{ $key }}: "{{ $value }}"
+{{- end }}
+
+---
+{{- end }}
+{{- end }}
