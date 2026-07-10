@@ -1,0 +1,27 @@
+global:
+
+  imagePullPolicy: Never
+
+userService:
+  replicaCount: 1
+
+productService:
+  replicaCount: 1
+
+cartService:
+  replicaCount: 1
+
+orderService:
+  replicaCount: 1
+
+paymentService:
+  replicaCount: 1
+
+notificationService:
+  replicaCount: 1
+
+apiGateway:
+  replicaCount: 1
+
+frontend:
+  replicaCount: 1
