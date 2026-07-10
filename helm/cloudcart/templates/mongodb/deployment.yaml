@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: mongodb
+  namespace: {{ .Values.namespace }}
+  labels:
+{{ include "cloudcart.labels" . | nindent 4 }}
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: mongodb
+
+  template:
+    metadata:
+      labels:
+        app: mongodb
+{{ include "cloudcart.labels" . | nindent 8 }}
+
+    spec:
+      containers:
+        - name: mongodb
+          image: {{ .Values.mongodb.image }}
+          imagePullPolicy: {{ .Values.global.imagePullPolicy }}
+
+          ports:
+            - containerPort: {{ .Values.mongodb.port }}
+
+          resources:
+{{ toYaml .Values.global.resources | nindent 12 }}
+
+          volumeMounts:
+            - name: mongodb-storage
+              mountPath: /data/db
+
+      volumes:
+        - name: mongodb-storage
+          persistentVolumeClaim:
+            claimName: mongodb-pvc
