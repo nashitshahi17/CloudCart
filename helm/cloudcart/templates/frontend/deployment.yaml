@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: frontend
+  namespace: {{ .Values.namespace }}
+
+  labels:
+{{ include "cloudcart.labels" . | nindent 4 }}
+
+spec:
+
+  replicas: {{ .Values.frontend.replicas }}
+
+  selector:
+
+    matchLabels:
+      app: frontend
+
+  template:
+
+    metadata:
+
+      labels:
+        app: frontend
+
+    spec:
+
+      containers:
+
+      - name: frontend
+
+        image: {{ .Values.frontend.image }}
+
+        imagePullPolicy: {{ .Values.global.imagePullPolicy }}
+
+        ports:
+
+        - containerPort: 80
+
+        resources:
+{{ toYaml .Values.global.resources | nindent 10 }}
+
+        readinessProbe:
+
+          httpGet:
+
+            path: /
+
+            port: 80
+
+          initialDelaySeconds: 10
+
+        livenessProbe:
+
+          httpGet:
+
+            path: /
+
+            port: 80
+
+          initialDelaySeconds: 20
