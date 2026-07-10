@@ -1,0 +1,93 @@
+{{- range $name, $service := .Values.services }}
+
+{{- if $service.enabled }}
+
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+
+  name: {{ $name }}
+
+  namespace: {{ $.Values.namespace }}
+
+  labels:
+{{ include "cloudcart.labels" $ | nindent 4 }}
+
+spec:
+
+  replicas: {{ $service.replicas }}
+
+  selector:
+
+    matchLabels:
+
+      app: {{ $name }}
+
+  template:
+
+    metadata:
+
+      labels:
+
+        app: {{ $name }}
+
+{{ include "cloudcart.labels" $ | nindent 8 }}
+
+    spec:
+
+      containers:
+
+      - name: {{ $name }}
+
+        image: {{ $service.image }}
+
+        imagePullPolicy: {{ $.Values.global.imagePullPolicy }}
+
+        ports:
+
+        - containerPort: {{ $service.port }}
+
+        envFrom:
+
+        - configMapRef:
+
+            name: {{ $service.configMap }}
+
+        - secretRef:
+
+            name: cloudcart-secret
+
+        resources:
+
+{{ toYaml $.Values.global.resources | nindent 10 }}
+
+        readinessProbe:
+
+          httpGet:
+
+            path: {{ $service.healthPath }}
+
+            port: {{ $service.port }}
+
+          initialDelaySeconds: 10
+
+          periodSeconds: 5
+
+        livenessProbe:
+
+          httpGet:
+
+            path: {{ $service.healthPath }}
+
+            port: {{ $service.port }}
+
+          initialDelaySeconds: 20
+
+          periodSeconds: 10
+
+---
+
+{{- end }}
+
+{{- end }}
