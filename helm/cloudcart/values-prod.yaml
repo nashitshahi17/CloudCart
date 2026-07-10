@@ -1,0 +1,27 @@
+global:
+
+  imagePullPolicy: IfNotPresent
+
+userService:
+  replicaCount: 3
+
+productService:
+  replicaCount: 3
+
+cartService:
+  replicaCount: 3
+
+orderService:
+  replicaCount: 3
+
+paymentService:
+  replicaCount: 3
+
+notificationService:
+  replicaCount: 3
+
+apiGateway:
+  replicaCount: 3
+
+frontend:
+  replicaCount: 3
