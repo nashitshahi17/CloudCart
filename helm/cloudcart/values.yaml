@@ -19,7 +19,7 @@ services:
   user:
     enabled: true
     image: cloudcart-user-service:v1
-    replicas: 2
+    replicas: 1
     port: 8000
     configMap: user-service-config
     healthPath: /health
@@ -33,7 +33,7 @@ services:
   product:
     enabled: true
     image: cloudcart-product-service:v1
-    replicas: 2
+    replicas: 1
     port: 8001
     configMap: product-service-config
     healthPath: /health
@@ -45,7 +45,7 @@ services:
   cart:
     enabled: true
     image: cloudcart-cart-service:v1
-    replicas: 2
+    replicas: 1
     port: 8003
     configMap: cart-service-config
     healthPath: /health
@@ -59,7 +59,7 @@ services:
   order:
     enabled: true
     image: cloudcart-order-service:v1
-    replicas: 2
+    replicas: 1
     port: 8002
     configMap: order-service-config
     healthPath: /health
@@ -76,7 +76,7 @@ services:
   payment:
     enabled: true
     image: cloudcart-payment-service:v1
-    replicas: 2
+    replicas: 1
     port: 8004
     configMap: payment-service-config
     healthPath: /health
@@ -91,7 +91,7 @@ services:
   notification:
     enabled: true
     image: cloudcart-notification-service:v1
-    replicas: 2
+    replicas: 1
     port: 8005
     configMap: notification-service-config
     healthPath: /health
@@ -106,7 +106,7 @@ services:
   api-gateway:
     enabled: true
     image: cloudcart-api-gateway:v1
-    replicas: 2
+    replicas: 1
     port: 5000
     configMap: api-gateway-config
     healthPath: /health
@@ -124,7 +124,7 @@ services:
 frontend:
   enabled: true
   image: cloudcart-frontend:v1
-  replicas: 2          
+  replicas: 1          
   port: 80
 
 ingress:
