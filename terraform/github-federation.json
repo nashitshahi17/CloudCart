@@ -1,0 +1,10 @@
+
+{
+  "name": "cloudcart-github-main",
+  "issuer": "https://token.actions.githubusercontent.com",
+  "subject": "repo:nashitshahi17/CloudCart:ref:refs/heads/main",
+  "description": "GitHub Actions OIDC for CloudCart main branch",
+  "audiences": [
+    "api://AzureADTokenExchange"
+  ]
+}
