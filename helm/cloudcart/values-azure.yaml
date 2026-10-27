@@ -1,0 +1,40 @@
+
+namespace: cloudcart
+
+global:
+  imagePullPolicy: Always
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
+
+mongodb:
+  image: mongo:7
+  port: 27017
+  storage: 20Gi
+
+services:
+  user:
+    image: cloudcartdeploymentregistory.azurecr.io/cloudcart-user-service:latest
+  product:
+    image: cloudcartdeploymentregistory.azurecr.io/cloudcart-product-service:latest
+  cart:
+    image: cloudcartdeploymentregistory.azurecr.io/cloudcart-cart-service:latest
+  order:
+    image: cloudcartdeploymentregistory.azurecr.io/cloudcart-order-service:latest
+  payment:
+    image: cloudcartdeploymentregistory.azurecr.io/cloudcart-payment-service:latest
+  notification:
+    image: cloudcartdeploymentregistory.azurecr.io/cloudcart-notification-service:latest
+  api-gateway:
+    image: cloudcartdeploymentregistory.azurecr.io/cloudcart-api-gateway:latest
+
+frontend:
+  image: cloudcartdeploymentregistory.azurecr.io/cloudcart-frontend:latest
+
+ingress:
+  enabled: false
+  host: cloudcart.local
